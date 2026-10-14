@@ -1,0 +1,18 @@
+schema_version: 1
+repositories:
+  - id: nvidia-omniverse-org
+    name: NVIDIA Omniverse organization repositories
+    url: https://github.com/orgs/NVIDIA-Omniverse/repositories
+    kind: organization-index
+    status: to-review
+    default_branch: null
+    last_checked: null
+    notes: "Discovery entry point; not itself a source-code repository."
+  - id: openusd
+    name: OpenUSD
+    url: https://github.com/PixarAnimationStudios/OpenUSD
+    kind: upstream-repository
+    status: to-review
+    default_branch: null
+    last_checked: null
+    notes: "Starter candidate only. Confirm relevance and record exact commit/tag before source-level conclusions."
