@@ -46,7 +46,8 @@ def main():
         "|---|---|---|---|---|",
     ]
     for doc_id, title, doc_type, status, path in rows:
-        lines.append(f"| {doc_id} | {title} | {doc_type} | {status} | [{path}]({path}) |")
+        link = Path(path).relative_to("docs").as_posix() if path.startswith("docs/") else "../" + path
+        lines.append(f"| {doc_id} | {title} | {doc_type} | {status} | [{path}]({link}) |")
     lines.append("")
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     OUTPUT.write_text("\n".join(lines), encoding="utf-8")
