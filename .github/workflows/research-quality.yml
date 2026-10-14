@@ -1,0 +1,33 @@
+name: Research quality
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements-dev.txt
+      - name: Install development dependencies
+        run: python -m pip install -r requirements-dev.txt
+      - name: Validate research metadata
+        run: python scripts/validate_research.py
+      - name: Check generated index is current
+        run: |
+          python scripts/build_index.py
+          git diff --exit-code -- docs/GENERATED-RESEARCH-INDEX.md
+      - name: Run tests
+        run: pytest -q
