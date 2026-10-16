@@ -1,0 +1,94 @@
+{
+  "schema_version": "0.1",
+  "study": "precision-lighting-poc0",
+  "note": "EXAMPLE ONLY — not observed results",
+  "run_id": null,
+  "timestamp_utc": null,
+  "status": "not-run",
+  "template_commit": "9cc43b764e6d4cd86cb6296a8440665c3c4f4843",
+  "research_baseline": "79fc7ef579239555b2b9990c21dbbf40d842cf03",
+  "environment": {
+    "windows_build": null,
+    "ram_gb": null,
+    "gpu": null,
+    "gpu_vram_gb": null,
+    "driver": null,
+    "sdk_build": null,
+    "sdk_channel": null,
+    "rtx_build": null,
+    "embedded_openusd": null,
+    "python_version": null,
+    "extensions": []
+  },
+  "probes": [
+    {
+      "id": "P0-01",
+      "status": "not-run",
+      "capabilities": [],
+      "evidence_paths": [],
+      "command": null,
+      "exit_code": null,
+      "error": null
+    },
+    {
+      "id": "P0-02",
+      "status": "not-run",
+      "capabilities": [],
+      "evidence_paths": [],
+      "command": null,
+      "exit_code": null,
+      "error": null
+    },
+    {
+      "id": "P0-03",
+      "status": "not-run",
+      "capabilities": [],
+      "evidence_paths": [],
+      "command": null,
+      "exit_code": null,
+      "error": null
+    },
+    {
+      "id": "P0-04",
+      "status": "not-run",
+      "capabilities": [],
+      "evidence_paths": [],
+      "command": null,
+      "exit_code": null,
+      "error": null
+    },
+    {
+      "id": "P0-05",
+      "status": "not-run",
+      "capabilities": [],
+      "evidence_paths": [],
+      "command": null,
+      "exit_code": null,
+      "error": null
+    },
+    {
+      "id": "P0-06",
+      "status": "not-run",
+      "capabilities": [],
+      "evidence_paths": [],
+      "command": null,
+      "exit_code": null,
+      "error": null
+    },
+    {
+      "id": "P0-07",
+      "status": "not-run",
+      "capabilities": [],
+      "evidence_paths": [],
+      "command": null,
+      "exit_code": null,
+      "error": null
+    }
+  ],
+  "gate": {
+    "decision": "not-assessed",
+    "reviewer": null,
+    "reviewed_run_ids": [],
+    "notes": null
+  }
+}
