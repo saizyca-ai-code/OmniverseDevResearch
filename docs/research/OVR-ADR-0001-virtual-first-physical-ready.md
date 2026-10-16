@@ -19,7 +19,7 @@ tags:
 
 # ADR: Virtual-First, Physical-Ready Precision Lighting
 
- > Accepted architectural direction following user approval and the merge of PR #3 on 2026-10-15; **not** a claim of verified implementation or photometric correctness. Runtime validation: `not-verified`.
+> Accepted architectural direction following user approval and the merge of PR #3 on 2026-10-15; **not** a claim of verified implementation or photometric correctness. Runtime validation: `not-verified`.
 
 ## Context
 
