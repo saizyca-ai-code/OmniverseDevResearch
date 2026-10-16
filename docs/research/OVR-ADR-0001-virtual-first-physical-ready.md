@@ -2,9 +2,9 @@
 id: OVR-ADR-0001
 title: Virtual-First Physical-Ready Precision Lighting Architecture
 type: decision
-status: review
+status: accepted
 created: 2026-10-15
-updated: 2026-10-15
+updated: 2026-10-16
 domains:
   - omniverse-kit
   - rtx-lighting
@@ -19,7 +19,7 @@ tags:
 
 # ADR: Virtual-First, Physical-Ready Precision Lighting
 
-> Proposed architectural decision pending PR review; **not** a claim of verified implementation or photometric correctness. Validation state: `not-verified`.
+> Accepted architectural direction following user approval and the merge of PR #3 on 2026-10-15; **not** a claim of verified implementation or photometric correctness. Runtime validation: `not-verified`.
 
 ## Context
 
@@ -57,7 +57,7 @@ Adopt **Virtual-First, Physical-Ready** in the forthcoming Precision Lighting En
 
 - [OVR-INV-0002 — Requirements and PoC baseline](OVR-INV-0002-precision-lighting-requirements-and-poc.md).
 - Direct user-confirmed requirements from 2026-10-15 project planning discussion (decision context, not independently verified technical behavior).
-- Public technical entry points and validation gaps documented in OVR-INV-0002. No upstream commit-pinned runtime evidence is claimed.
+- Public technical entry points and validation gaps documented in OVR-INV-0002; follow-up pinned source findings and PoC contract in [OVR-INV-0003](OVR-INV-0003-rtx-projector-source-investigation-and-poc.md). No upstream commit-pinned RTX runtime evidence is claimed.
 - Evidence classification of implementation feasibility: **C** (proposed design); current runtime validation: `not-verified`.
 
 ## Revisit conditions
@@ -66,4 +66,4 @@ Reassess after PoC 1 demonstrates/falsifies actual RTX projector mask fidelity; 
 
 ## Review status
 
-The decision has user direction approval in chat; governance status remains `review` until reviewed and merged under repository process. No code, runtime tests or deployment have been performed.
+User direction approval was recorded on 2026-10-15 and [PR #3](https://github.com/saizyca-ai-code/OmniverseDevResearch/pull/3) merged on 2026-10-15. Governance status is now `accepted` in this follow-up research PR, correcting the historical `review` metadata. This accepts the Virtual-First, Physical-Ready **architectural decision only**, not RTX projector behavior, calibration, performance or product implementation. No code, RTX runtime test or deployment has been performed.
