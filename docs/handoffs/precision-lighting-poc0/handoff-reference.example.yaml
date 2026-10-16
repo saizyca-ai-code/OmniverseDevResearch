@@ -1,0 +1,11 @@
+# Template only. Copy the *reference metadata*, not the research documents.
+schema_version: 1
+research:
+  repository: https://github.com/saizyca-ai-code/OmniverseDevResearch
+  revision: null # Replace with full 40-character merged research commit SHA
+handoff:
+  id: OVR-HOF-0001
+  path: docs/handoffs/OVR-HOF-0001-poc0.md
+  phase: poc0
+  prd: docs/specs/OVR-PRD-0001-poc0.md
+  technical_design: docs/specs/OVR-DES-0001-poc0.md
