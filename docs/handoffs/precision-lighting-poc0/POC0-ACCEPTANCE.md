@@ -1,3 +1,17 @@
+---
+id: OVR-HOF-0002
+title: PoC 0 — Acceptance Criteria
+type: handoff
+status: planned
+created: 2026-10-16
+updated: 2026-10-16
+domains: [omniverse-kit, rtx-lighting, openusd]
+repositories:
+  - https://github.com/NVIDIA-Omniverse/kit-app-template
+  - https://github.com/PixarAnimationStudios/OpenUSD
+tags: [precision-lighting, poc0, acceptance, validation]
+---
+
 # PoC 0 — Acceptance Criteria and Gate Decision
 
 > Draft 2026-10-16; source: OVR-INV-0003 PoC 0 P0-01..07. No executable Kit/RTX validation yet.
