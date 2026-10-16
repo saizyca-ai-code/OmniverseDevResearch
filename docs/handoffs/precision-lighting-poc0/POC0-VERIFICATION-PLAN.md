@@ -1,3 +1,17 @@
+---
+id: OVR-HOF-0003
+title: PoC 0 — Verification Plan
+type: handoff
+status: planned
+created: 2026-10-16
+updated: 2026-10-16
+domains: [omniverse-kit, rtx-lighting, openusd]
+repositories:
+  - https://github.com/NVIDIA-Omniverse/kit-app-template
+  - https://github.com/PixarAnimationStudios/OpenUSD
+tags: [precision-lighting, poc0, acceptance, validation]
+---
+
 # PoC 0 — Verification Plan and Evidence Checklist
 
 > Draft 2026-10-16. This is a **future execution plan**, not test results.
