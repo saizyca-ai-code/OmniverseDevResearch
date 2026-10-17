@@ -55,9 +55,7 @@ AC-02要求 exact RTX build／critical identity resolved，**沒有明訂 render
 | [T007官方搜尋報告](https://github.com/saizyca-ai-code/ov_dmx_light_control/blob/92abd6c4c4cf819395afaac667794914b71ccda5/docs/development/t007-official-provenance-search.md) | 187cf21b為Kit target／publication角色；24queries及官方metadata範圍內未找到exact mapping | 全網或NVIDIA私有系統不存在manifest；187cf21b與1ea54838為等價或祖先關係 |
 | 原始失敗與證據索引 | sandbox readonly／timeout與授權環境成功重試分開保留，raw檔案可核對hash | sandbox權限已修復或完整descendant cleanup已盤點 |
 
-來源缺口：沒有當初取得的RTX ZIP bytes／checksum；vendor folder hash `6f84576881594a1d`與archive-name後綴`fcf7d3edfc3a1aee`不同。列舉順序、文字正規化、發布處理與截短hash等限制已記錄。不能把差異當integrity pass，也沒有證據可直接判為corruption；這些缺口不因採B而消失。
-
-
+來源缺口：既有調查未取得當初RTX ZIP bytes／checksum；搜尋僅涵蓋repository內的.cache/registry、.cache/packman與.cache/kit-runtime，未查system temporary或external/global caches，不能推論整台主機或vendor端都不存在原archive。vendor folder hash `6f84576881594a1d`與archive-name後綴`fcf7d3edfc3a1aee`不同。列舉順序、文字正規化、發布處理與截短hash等限制已記錄。不能把差異當integrity pass，也沒有證據可直接判為corruption；這些缺口不因採B而消失。
 
 ## Evidence matrix 與可重定位來源
 
@@ -70,6 +68,8 @@ AC-02要求 exact RTX build／critical identity resolved，**沒有明訂 render
 | 187cf21b 是 Kit target／publication；1ea54838 是 SDK dependency 宣告 | B（metadata 與官方語意交叉核對） | source-inspected | T007 report「What the two identifiers establish」；取得SDK的 `dev/all-deps.packman.xml`、registry `package.target.kitHash` |
 | 識別字串不同不直接證明不相容或損壞 | C（推論） | source-inspected，非 integrity pass | T007 report「What the two identifiers establish」 |
 | 原始 RTX archive checksum、declared revision 到 loaded bytes 的權威映射 | U（未知） | not-verified／blocked | T004 provenance、T007 bounded search；24 queries 無 exact mapping，不證明 NVIDIA 不存在資料 |
+
+Fresh review證據：[T005 runtime／11 checks／28 dev](https://github.com/saizyca-ai-code/ov_dmx_light_control/blob/92abd6c4c4cf819395afaac667794914b71ccda5/docs/development/evidence/t004-review-observed.json)與[T008 evidence review／24 unit tests](https://github.com/saizyca-ai-code/ov_dmx_light_control/blob/92abd6c4c4cf819395afaac667794914b71ccda5/docs/development/evidence/t007-review-observed.json)。原T004／T007摘要是歷史調查，fresh review結果以各自review JSON與report review章節核對，不將兩次執行混為同一run。
 
 公開證據摘要：[baseline](https://github.com/saizyca-ai-code/ov_dmx_light_control/blob/92abd6c4c4cf819395afaac667794914b71ccda5/docs/development/evidence/pr01-observed.json)、[T004](https://github.com/saizyca-ai-code/ov_dmx_light_control/blob/92abd6c4c4cf819395afaac667794914b71ccda5/docs/development/evidence/t004-rtx-identity.json)、[T007](https://github.com/saizyca-ai-code/ov_dmx_light_control/blob/92abd6c4c4cf819395afaac667794914b71ccda5/docs/development/evidence/t007-official-provenance-search.json)。摘要、report及resolution lock互相引用；此處不複製 vendor source、binary 或私人 raw logs。
 
@@ -100,7 +100,7 @@ AC-02要求 exact RTX build／critical identity resolved，**沒有明訂 render
 
 以下是**本草案提議的不可略過最低條件**；研究review可修改提案，但不能在未記錄的情況下將必要條件當成可選限制。條件尚未完成不妨礙「送研究審查提案」，但會阻擋「宣稱B驗證通過」。
 
-1. **先核准信任根與coverage。** 由具名human reviewer審查官方取得紀錄、授權、package refs及source/config snapshots，明確接受其證據強度；將信任層級描述為「reviewer核准的本機baseline」，不能改稱vendor-authenticated。明列至少現有35檔、28個plugins的四package歸屬、兩個support DLL及metadata，並列出未涵蓋的動態／GPU／driver依賴及排除理由。35檔是起點，不是自動足夠的coverage；新增未知或critical依賴無法分類、來源完整性有具體疑點未解，或vendor authenticity屬不可妥協門檻時，B不得通過。執行agent的hash工具或自己的baseline批准不能替代human接受。
+1. **先核准信任根與coverage。** 由具名human reviewer審查官方取得紀錄、授權、package refs及source/config snapshots，明確接受其證據強度；將信任層級描述為「reviewer核准的本機baseline」，不能改稱vendor-authenticated。明列至少現有35檔、28個plugins的四package歸屬、兩個support DLL及metadata，並列出未涵蓋的動態／GPU／driver依賴及排除理由。35檔是起點，不是自動足夠的coverage；新增未知或critical依賴無法分類、來源完整性有具體疑點未解，或vendor authenticity屬不可妥協門檻時，B不得通過。執行agent的hash工具或自己的baseline批准不能替代human接受。候選驗收run開始前，必須已有針對該集合ID／coverage／信任限制的具名批准；run完成後的結果簽核不能追認未經批准的輸入集合。
 2. **定義且測試可重算的集合識別。** 研究review需先固定versioned manifest schema、精確file集合、原始檔案bytes的SHA256與canonical序列化規則；至少明定path根目錄／分隔符／大小寫碰撞／重複path／link解析與拒絕規則、排序、文字編碼／換行及集合ID排除自身欄位，並有跨平台test vectors。binary集合ID與OS／driver／settings／scene等run-environment描述分開記錄、互相引用，避免相同binary在不同環境被當成相同行為保證。不要拿任意commit或archive名稱當集合digest。這些是待研究review定義、待實作測試的要求，**目前集合ID／schema尚未建立**。
 3. **綁定執行並以缺漏／漂移為阻擋。** 每次候選驗收run前及clean退出後，檢查完整已核准file集合與digest；run內保留documented loaded paths/hash、已核准plugin集合、版本／enabled metadata及執行前後source fingerprints，拒絕missing／extra／duplicate／unknown／hash mismatch。執行期間禁止in-place SDK／registry更新，需有可檢視的受控執行安排與紀錄；缺任一必要輸出即不得給該run pass。現有preflight及runtime hash可沿用，**完整post-run集合檢查及此流程尚未驗證**。即使pre/post一致也不能排除惡意替換後還原、未涵蓋modules或記憶體修改；B僅針對可信本機的重現與非惡意漂移，不適用host遭入侵或memory attestation需求。
 4. **行為證據不能省略。** 固定Windows／GPU／driver／Kit／kernel／embeddedUSD／Python、scene、renderer settings、sampling／denoising／曝光與完整命令，對應USD roundtrip與RT2／PT各兩次執行的baseline。CI的hash／schema pass不構成新GPU驗證。
@@ -124,13 +124,11 @@ AC-02要求 exact RTX build／critical identity resolved，**沒有明訂 render
 
 所有「未完成／未證明／待明列」項目是**B啟用阻擋**，不是文字修正後即自動滿足。本 PR 只整理提案，未補做實作或runtime驗證。
 
-
 ## Go、Conditional Go與Full Gate0的分離
 
 目前`full_environment_go=blocked`表示critical RTX identity阻礙仍在；不能直接等同鎖定文件中整個Gate0枚舉的BLOCKED理由。**Full Gate0 decision維持not-assessed／未簽核。** 研究文件另有Conditional Go，可在明確缺口下允許有限Pure Core工作，但這不是本次選擇，也不構成PR-02或RTX Adapter假設授權。
 
 即使未來A取得mapping或B獲批准並完成候選驗證，也只可能解除identity這一項阻礙；仍需review其他AC、PR-02 capability／完整性證據及正式Gate0 signoff。本次沒有把AC06–09、PR-02或PoC1視為完成。
-
 
 ## 待研究 owner 審查的 Research Feedback
 
@@ -153,12 +151,11 @@ Handoff Protocol要求判準／設計變更經研究review，並由implementatio
 | S1：研究政策決定 | 具名研究owner／human reviewer選擇A或B，判定澄清或變更，定義不可略過門檻、coverage、信任模型與可接受用途 | 批准政策不等於批准實際binary集合、完成補測或解除Go |
 | S2：實質政策發布 | S1決定後，另經明確授權與review的研究變更PR，修改必要判準／驗證計畫，完成研究validation與human merge，保存實際40字元merged政策研究SHA | 本提案PR不含政策變更；不得以其merge取代實質政策發布，未merge分支亦不是已發布基線 |
 | S3：implementation採用 | 另經授權與review的adoption PR，含新研究lock、影響評估、manifest／checker／pre-post流程及負例測試、report語意；維持fail-closed，不能只改Go字串。SDK pins變更若有需要須另行評估，不由判準變更隱含授權 | 政策與lock合併不等於runtime通過；未完成驗證仍blocked |
-| S4：執行證據與簽核 | 依已採用判準逐條確認證據；具名human接受信任根／集合ID／排除項，implementation verifier提供實際run IDs／hashes／結果，獨立於coding agent的human reviewer簽核適用範圍及限制。舊證據可引用的條件需逐項說明，新增條件缺證據需後續授權補測 | 只可能解除已驗證的identity阻礙，不代替其他AC或Full Gate0；不回寫歷史run為B-pass，也不授權PR-02 |
+| S4：執行證據與簽核 | 依已採用判準逐條確認證據；候選驗收run前先由具名human批准信任根／集合ID／排除項，implementation verifier依已批准輸入執行並提供實際run IDs／hashes／結果，獨立於coding agent的human reviewer簽核適用範圍及限制。舊證據可引用的條件需逐項說明，新增條件缺證據需後續授權補測 | 只可能解除已驗證的identity阻礙，不代替其他AC或Full Gate0；不回寫歷史run為B-pass，也不授權PR-02 |
 
 任一必要條件失敗、缺證據或未獲批准，就停在該階段並保留blocked與失敗證據，不能以未來承諾先給pass。採用後若發現未知critical module、來源信任問題或hash漂移，停止將該接受結論用於新run，重新開啟缺口／影響評估；保留歷史判定與其當時判準。這不是自動改寫lock或回退Git版本的授權。任何需下載archive、對外詢問、擴大scope或取得研究寫入權限的工作，都需另行明確授權。
 
 目前implementation assessor／checker與resolution lock保留Go=blocked的既有行為。若後續採B，需另做implementation change review並更新相應tests／report semantics；**不是直接修改現有Go字串**，也不應回寫歷史run為新版驗收pass。
-
 
 ## 決定（待填，不是已接受方案）
 
@@ -171,12 +168,10 @@ Handoff Protocol要求判準／設計變更經研究review，並由implementatio
 | 已批准manifest schema／集合ID／排除項 | 未定義／未批准 |
 | classification：澄清或驗收變更 | 待研究owner review |
 | 接受限制、必補gap與重新驗證項目 | 待逐項記錄 |
-| Research PR／新merged SHA | 本 PR 僅提案，未取得新merged SHA；merge本提案亦不構成政策接受 |
+| Research PR／新merged政策SHA | 本 PR 僅提案，尚無實質政策發布SHA；merge本提案亦不構成政策接受 |
 | Implementation adoption PR／新lock | 未建立／未修改 |
 | 必要gap closure／驗證run IDs與evidence digests | 未完成；不能用既有CI或clean exit代替 |
 | 生效時間／Gate reviewer signoff | 未生效／未簽核 |
-
-
 
 ## 驗證範圍與現行判定
 
