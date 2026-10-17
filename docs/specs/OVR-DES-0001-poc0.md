@@ -4,7 +4,7 @@ title: PoC 0 — Environment and Capability Technical Design
 type: technical-design
 status: planned
 created: 2026-10-16
-updated: 2026-10-16
+updated: 2026-10-17
 domains: [omniverse-kit, rtx-lighting, openusd]
 repositories:
   - https://github.com/NVIDIA-Omniverse/kit-app-template
@@ -45,18 +45,14 @@ One controller process sequences probes. `pxr`/Kit-dependent calls run **inside 
 4. `exported` valid captured AOV (not semantic/lux proof).
 A capability can be supported at level 1 while 3 remains unknown. Do **not** flatten into one boolean. `unsupported` requires a **completed negative probe** on the exact resolved build, not a missing source citation.
 
-### Manifest schema fragment (illustrative; actual JSON example in `fixtures/expected-manifest.example.json`)
-```json
-{
-  "schema_version": "0.1",
-  "study": "precision-lighting-poc0",
-  "run_id": "<generated>",
-  "status": "not-run",
-  "template_commit": "9cc43b764e6d4cd86cb6296a8440665c3c4f4843",
-  "environment": {"sdk_build": null, "channel": null, "embedded_openusd": null, "rtx_build": null, "gpu": null, "driver": null},
-  "probes": [{"id":"P0-06", "status":"not-run", "capabilities":[], "evidence_paths":[]}]
-}
-```
+### Manifest schema and candidate identity contract
+
+Canonical [expected manifest example](../handoffs/precision-lighting-poc0/expected-manifest.example.json) is **example0.2, not observed output**. The previous fragment0.1 is historical; existing implementation evidence is not automatically migrated. Detailed binary-set/environment identity schemas, canonical bytes/IDs, coverage/criticality, evidence refs, human approval fields and synthetic vectors are defined only in [ADR-0002](../research/OVR-ADR-0002-poc0-binary-identity-policy.md).
+
+The proposed `identity` section separates declared RTX package build, internal revision/unavailable reason, binary and environment identities and their policy/coverage/pre-runtime-post/human refs. Unknown values remain null/unavailable; generic dev/Kit target hashes are not substituted for vendor revision. `result_levels` separates diagnostics, final identity acceptance, full environment Go and Gate0. An implementation may first adopt the reviewed policy and checker while B final identity acceptance stays blocked pending approved runs and independent human review.
+
+Example0.2 adds these fields to the research example; it does not change product code or existing0.1 reports. Legacy0.1 remains usable as historical inventory/diagnostics but cannot imply B-pass. No automatic migration can fill approved/pass defaults. Actual policy SHA is recorded only after policy publication and separately reviewed implementation lock adoption. Schema/JSON checks do not establish runtime or human approval.
+
 Every probe record should include UTC timestamp, cwd (redacted), command argv, exit code (null if not run), error class/message (sanitized), assertions and artifact hashes. No fabricated measured values.
 
 ## Probe work contracts

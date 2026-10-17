@@ -4,7 +4,7 @@ title: PoC 0 — Implementation Handoff
 type: handoff
 status: planned
 created: 2026-10-16
-updated: 2026-10-16
+updated: 2026-10-17
 domains: [omniverse-kit, rtx-lighting, openusd]
 repositories:
   - https://github.com/NVIDIA-Omniverse/kit-app-template
@@ -74,7 +74,7 @@ Use only paths supported by the created template and implementation repo. Avoid 
 Inputs: pinned template/ref, approved Kit config, target machine, fixture stage, mode selector, config-provided output directory, timeout.
 Outputs: `environment.json`, `capabilities.json` (or one normalized manifest), `run-summary.json`, resolved dependency inventory, command transcript, shader/render settings, USD before/after dump, screenshots/raw AOV if available, per-probe stdout/stderr, sanitization report, SHA-256 evidence index.
 
-Contract: `status = pass|fail|blocked|not-run`; `capability.status = supported|unsupported|unknown|blocked`, with level `discovered|authored|rendered|exported`, timestamp, build and evidence paths. Never generate `supported` by default or on property-name guess. Example input/output in `fixtures/expected-manifest.example.json`.
+Contract: `status = pass|fail|blocked|not-run`; `capability.status = supported|unsupported|unknown|blocked`, with level `discovered|authored|rendered|exported`, timestamp, build and evidence paths. Never generate `supported` by default or on property-name guess. Example input/output in [canonical example](precision-lighting-poc0/expected-manifest.example.json).
 
 ## Commands to discover, run and record
 - Record `git rev-parse HEAD` and source checkout SHA.
@@ -127,3 +127,11 @@ Research-consolidation candidates (do not write research repo):
 | [Kit 110.2 release notes](https://docs.omniverse.nvidia.com/kit/docs/kit-sdk/110.2.0/docs/overview/release-notes.html) | 曾描述貼圖變更重載，不能推論 110.4 RTX projector reload 已可用 |
 
 **Evidence Policy:** A＝直接來源；B＝交叉查核；C＝推論；U＝未知。`source-inspected` ≠ `test-executed` ≠ `runtime-verified`。實際可用性不得由文件存在性推論。
+
+## Candidate identity-policy handoff addendum (2026-10-17)
+
+[ADR-0002](../research/OVR-ADR-0002-poc0-binary-identity-policy.md) proposes the sole detailed A/B identity contract. Only B direction/conditions and L01–L05 principle acceptance were approved; policy remains review. This addendum does not supersede permissions for prior runs, authorize execution, approve a binary baseline, declare B-pass or update the implementation lock.
+
+Future work requires separate research policy review/acceptance/merge, actual merged policy SHA and reviewed implementation adoption PR with impact note. That PR implements the versioned identity contract/checkers and negative cases while final B acceptance/Go stay blocked. Named humans approve exact set/environments/coverage before separately authorized runs, then independently accept/reject their results. Post-run E04/E05/E08 evidence is not required before S3 adoption; it is required before final B acceptance. Historical evidence is preserved, never retroactively relabeled B-pass. Example0.2 is not product output or a schema migration of old runs.
+
+PR-01 remains T00–T04; PR-02 remains T05–T07 and is **not started or authorized by this policy PR**. Chat/research defines questions, candidate APIs and acceptance/verification plan; implementation agents write projector/AOV probes and execute Kit/RTX, with the reviewed research pin, sanitized evidence and human decisions. Code review, research CI, binary baseline approval and runtime acceptance are distinct. No SDK archive download, vendor inquiry, real DMX output or product feature is authorized here.
