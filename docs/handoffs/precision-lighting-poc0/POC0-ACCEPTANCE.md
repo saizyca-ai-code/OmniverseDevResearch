@@ -4,7 +4,7 @@ title: PoC 0 — Acceptance Criteria
 type: handoff
 status: planned
 created: 2026-10-16
-updated: 2026-10-16
+updated: 2026-10-17
 domains: [omniverse-kit, rtx-lighting, openusd]
 repositories:
   - https://github.com/NVIDIA-Omniverse/kit-app-template
@@ -27,7 +27,7 @@ tags: [precision-lighting, poc0, acceptance, validation]
 | Acceptance | Required proof | Pass | Fail/Block guidance |
 |---|---|---|---|
 | **P0-AC-01** SDK/template provenance | pinned template commit, SDK resolution output, package IDs/channel/license review, commands | actual 110.4 candidate binary resolved and licensed, or clearly documented approved equivalent | SDK inaccessible = blocked; no substitution |
-| **P0-AC-02** deps/build inventory | exact Kit build/channel, extensions, RTX build, embedded USD, Python, package refs/hashes or `unavailable` notes | each required version resolved or explicit missing reason; full environment Go requires critical versions resolved | missing critical SDK/RTX identity blocks Go |
+| **P0-AC-02** deps/build inventory | exact Kit/channel, extensions, declared RTX build and actual internal revision or unavailable reason, embedded USD/Python, package refs/hashes; identity method and policy/evidence references | inventory completeness: resolved values or explicit missing reasons; critical RTX identity: A authoritative mapping, or B only after the adopted ADR-0002 policy and all B01–B08/E01–E08 evidence plus human acceptance | missing critical identity or incomplete/unadopted B blocks full environment Go; hashes alone do not resolve vendor provenance |
 | **P0-AC-03** machine inventory | Windows build, RTX GPU/VRAM, driver, 64GB RAM measured, sanitized logs | target matches requested hardware, driver and OS source given | mismatch ⇒ block target-hardware signoff, allow diagnostic |
 | **P0-AC-04** Kit + USD | startup/shutdown logs, stage, prim dumps pre/post, fixed ON/OFF captures | exit cleanly (or documented recoverable shutdown defect), stage roundtrip values equal, finite visible light-dependent difference | black frames w/o diagnosis ≠ pass |
 | **P0-AC-05** RT 2.0 and PT | per-mode exact selection settings, renderer confirmation, captures | both modes identified and render baseline, repeated once | one missing ⇒ no full Go; investigate fallback |
@@ -35,6 +35,12 @@ tags: [precision-lighting, poc0, acceptance, validation]
 | **P0-AC-07** AOV inventory/export | per-mode settings and individual attempts for DI, GI, illuminance, world position; raw data or negative logs | every requested probe attempted or explicitly justified `blocked`, each outcome accurate | AOV absence not automatically core No-Go |
 | **P0-AC-08** result integrity | manifest schema validation, evidence refs/files, command transcript, negative-case test | every task has status, provenance, reproducibility, no fabricated evidence | missing artifacts/secret exposures = fail |
 | **P0-AC-09** fallback governance | 110.4 blocker cause and version impact memo | maintain 110.4 unless recorded reproducible blocker + reviewer approves 110.3 scoped comparison | silent swap = fail |
+
+### Accepted research identity policy and adoption boundary
+
+[OVR-ADR-0002](../../research/OVR-ADR-0002-poc0-binary-identity-policy.md) is the sole detailed A/B policy contract. This is a **substantive acceptance change** explicitly accepted by the human owner on 2026-10-17, not a claim that the old AC-02 already accepted binary identity. Research publication and implementation adoption remain distinct: current implementation lock `27ab5add5c62692d47662e32401df860a82136cf` is unchanged, full environment Go=blocked and Full Gate0 not-assessed. Neither human policy acceptance nor L01–L05 principle acceptance approves a binary baseline or B result.
+
+After separate policy acceptance/publication and reviewed implementation adoption, B may satisfy the critical identity purpose only for its approved local PoC scope, with every B/E condition and pre-run approval/post-run human acceptance complete. `internal_revision` remains unavailable; vendor provenance stays unresolved. Diagnostic pass, inventory pass, B final identity acceptance and full environment Go are separate. No historical run is relabeled. Other AC requirements, the four Gate decisions below, and Conditional Go restrictions are unchanged. Neither this PR nor a future policy merge authorizes PR-02.
 
 ### Gate 0 decision
 **GO:** AC-01…05 and AC-08 pass on approved target hardware; AC-06/07 completed to a truthful level (can contain supported/unsupported/unknown claims and conditional gaps) and AC-09 respected. Projector visible/rendered success is PoC 1 feasibility gate, **not** necessarily PoC 0 Gate 0.

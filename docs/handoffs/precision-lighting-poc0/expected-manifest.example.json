@@ -1,7 +1,7 @@
 {
-  "schema_version": "0.1",
+  "schema_version": "0.2",
   "study": "precision-lighting-poc0",
-  "note": "EXAMPLE ONLY — not observed results",
+  "note": "EXAMPLE ONLY — accepted research ADR-0002 contract, not implementation adoption or observed/approved results; 0.1 is historical and not auto-migrated",
   "run_id": null,
   "timestamp_utc": null,
   "status": "not-run",
@@ -90,5 +90,87 @@
     "reviewer": null,
     "reviewed_run_ids": [],
     "notes": null
+  },
+  "research_baseline_note": "Historical source baseline of the original example, not implementation handoff lock or merged policy SHA",
+  "identity": {
+    "policy_id": "OVR-ADR-0002",
+    "adopted_policy_revision": null,
+    "method": null,
+    "sdk_declared_rtx_build": null,
+    "internal_revision": null,
+    "missing_reason": null,
+    "binary_set": {
+      "payload_ref": null,
+      "binary_set_id": null
+    },
+    "run_environment": {
+      "payload_ref": null,
+      "environment_id": null
+    },
+    "coverage_ref": null,
+    "source_snapshot_before_ref": null,
+    "source_snapshot_after_ref": null,
+    "pre_ref": null,
+    "runtime_ref": null,
+    "post_ref": null,
+    "evidence_items": {
+      "E01": {
+        "status": "not-run",
+        "evidence_refs": []
+      },
+      "E02": {
+        "status": "not-run",
+        "evidence_refs": []
+      },
+      "E03": {
+        "status": "not-run",
+        "evidence_refs": []
+      },
+      "E04": {
+        "status": "not-run",
+        "evidence_refs": []
+      },
+      "E05": {
+        "status": "not-run",
+        "evidence_refs": []
+      },
+      "E06": {
+        "status": "not-run",
+        "evidence_refs": []
+      },
+      "E07": {
+        "status": "not-run",
+        "evidence_refs": []
+      },
+      "E08": {
+        "status": "not-run",
+        "evidence_refs": []
+      }
+    },
+    "pre_run_approval": {
+      "approval_id": null,
+      "actor": null,
+      "timestamp_utc": null,
+      "record_ref": null,
+      "actor_kind": null
+    },
+    "post_run_review": {
+      "review_id": null,
+      "actor": null,
+      "timestamp_utc": null,
+      "record_ref": null,
+      "decision": null,
+      "actor_kind": null,
+      "reviewed_machine_evidence_ref": null
+    },
+    "machine_evidence_ref": null
+  },
+  "result_levels": {
+    "diagnostic_status": "not-run",
+    "identity_acceptance_status": "blocked",
+    "full_environment_go": "blocked",
+    "blocking_reasons": [
+      "Example only; no adopted policy, approved baseline, runs or human acceptance"
+    ]
   }
 }

@@ -185,3 +185,15 @@ Handoff Protocol要求判準／設計變更經研究review，並由implementatio
 ## 重新檢討條件
 
 官方mapping或可驗證attestation出現；需要vendor source-level支援；更換SDK／extension／GPU／driver或hash集合；fresh-bootstrap不能取得相同bytes；baseline來源信任被質疑；新增產品／precision／物理照明要求。上述任一出現都應重審方案及適用邊界，不能把本機PoC暫定接受永久擴張為產品保證。
+
+
+## 2026-10-17 direction update — policy remains review
+
+Human owner explicitly approved B as the restricted PoC candidate direction, retaining A provenance goals and L01–L05 principle acceptance, with B eight conditions/E01–E08 mandatory. This does not approve the actual binary baseline, concrete integrity-issue disposition, B acceptance or policy activation. [ADR-0002](OVR-ADR-0002-poc0-binary-identity-policy.md) is a separate proposed policy change with the detailed contract; if accepted and adopted, its contract is used prospectively. It is not evidence that the original AC-02 already accepted B.
+
+Earlier undecided-direction statements in this report are historical investigation context. Original 28dev results, archive gaps, bounded search, all fixed evidence links and implementation lock remain unchanged. The report stays review, not runtime-verified policy. Current full environment Go=blocked; no new runtime, archive download, PR-02 or NVIDIA inquiry.
+
+
+## 2026-10-17 policy acceptance update — implementation adoption pending
+
+After full PR #7 review and fixes, the human owner explicitly accepted the ADR-0002 research policy contract and authorized its merge. The preceding direction-only/policy-review statements remain dated investigation history; the accepted policy contract is authoritative in [ADR-0002](OVR-ADR-0002-poc0-binary-identity-policy.md) once published. This investigation report itself remains review, not a verified baseline. No B01–B08/L01–L05/E01–E08 requirement is waived, no binary baseline or B result is approved, and the implementation handoff lock is unchanged. Full environment Go=blocked; no runtime, archive download, PR-02 or NVIDIA inquiry. Implementation adoption requires a separate authorized and reviewed PR using the actual merged research SHA.

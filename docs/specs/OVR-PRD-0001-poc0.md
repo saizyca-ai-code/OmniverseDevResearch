@@ -4,7 +4,7 @@ title: PoC 0 — Environment Validation Product Requirements
 type: prd
 status: planned
 created: 2026-10-16
-updated: 2026-10-16
+updated: 2026-10-17
 domains: [omniverse-kit, rtx-lighting, openusd]
 repositories:
   - https://github.com/NVIDIA-Omniverse/kit-app-template
@@ -21,6 +21,8 @@ tags: [precision-lighting, poc0, environment-validation]
 在 Windows 11 + GeForce RTX 5080 16GB + 64GB RAM 上，建立**可重現啟動、可測試、可查核版本**的最小自建 USD Composer-style Kit App 環境，作為單一 Virtual Precision Projector 的 PoC 1 前置 gate。主要使用者是開發者、技術審查者及 Coding Agent，不是終端燈光設計師。
 
 成功定義：另一位有授權的開發者能依產生的文件重建環境，得到真實解析出的 Kit/RTX/OpenUSD 版本資訊、USD roundtrip、兩種 renderer 的測試紀錄、projector property/AOV 探測結果，並可作出 Go/Conditional Go/Blocked/No-Go 決策。
+
+> **2026-10-17 accepted research policy boundary (implementation adoption pending):** [ADR-0002](../research/OVR-ADR-0002-poc0-binary-identity-policy.md) defines an explicitly restricted local binary-identity alternative for AC-02 after policy acceptance and implementation adoption. It does not waive the overall reconstruction goal above, fabricate an unavailable vendor revision, satisfy projector/AOV requirements or prove full PoC readiness. A B local-identity acceptance cannot be used as proof of another developer/fresh-host reconstruction; if that required evidence is unavailable, keep the overall success claim incomplete and record it for human Gate review. Current implementation lock and Go=blocked remain unchanged; this PR supplies no new runtime or PR-02 execution.
 
 ## Context and accepted decisions
 - Research baseline `OVR-INV-0002`, `OVR-INV-0003`; architecture `OVR-ADR-0001`。
