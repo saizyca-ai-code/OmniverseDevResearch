@@ -1,7 +1,7 @@
 {
   "schema_version": "0.2",
   "study": "precision-lighting-poc0",
-  "note": "EXAMPLE ONLY — candidate ADR-0002 contract, not observed or approved results; 0.1 is historical and not auto-migrated",
+  "note": "EXAMPLE ONLY — accepted research ADR-0002 contract, not implementation adoption or observed/approved results; 0.1 is historical and not auto-migrated",
   "run_id": null,
   "timestamp_utc": null,
   "status": "not-run",

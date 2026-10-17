@@ -1,20 +1,20 @@
 ---
 id: OVR-ADR-0002
-title: PoC 0 — 受限 binary identity 替代證明政策候選
+title: PoC 0 — 受限 binary identity 替代證明政策
 type: decision
-status: review
+status: accepted
 created: 2026-10-17
 updated: 2026-10-17
 domains: [omniverse-kit, rtx, reproducibility]
 repositories:
   - https://github.com/saizyca-ai-code/OmniverseDevResearch
   - https://github.com/saizyca-ai-code/ov_dmx_light_control
-tags: [poc0, policy-candidate, binary-identity]
+tags: [poc0, accepted-policy, binary-identity]
 ---
 
-# PoC 0 — 受限 binary identity 替代證明政策候選
+# PoC 0 — 受限 binary identity 替代證明政策
 
-> **待審政策，尚未接受或生效。** 2026-10-17 human owner僅核准B為受限PoC候選方向、保留A的provenance目標、原則接受L01–L05，要求B八條件及E01–E08不可略過。這不是binary baseline批准、B驗收或任何run簽核。本PR不合併、不更新implementation handoff lock、不執行Kit／RTX；目前full environment Go=blocked、Full Gate0 not-assessed。以下「必須／不得」是提議政策的規範內容，須經實質政策review／接受、publication與implementation採用後才供新驗證使用。
+> **研究政策契約已由human owner明確接受；implementation尚未採用，B尚未驗收。** 2026-10-17，owner在完成PR #7 review（head `25fda19edee868c6bc7bc2f06ce687c8783daf25`）後明確指示：「我接受 PR #7 的研究政策契約，請合併並同步 Obsidian；這不代表批准 binary baseline 或 B 驗收。」本次只將此接受及發布狀態同步，B01–B08／L01–L05／E01–E08與canonical／human鏈契約不改。PR合併後發布本accepted政策；實際merged SHA由PR／Git記錄取得，不預填或引用本文件自身commit。implementation handoff lock仍不更新，不執行Kit／RTX；full environment Go=blocked、Full Gate0 not-assessed。政策接受／研究發布不等於implementation採用、指定集合批准、B驗收或run授權。
 
 ## Context、固定依據與證據
 
@@ -25,7 +25,7 @@ tags: [poc0, policy-candidate, binary-identity]
 - [baseline report](https://github.com/saizyca-ai-code/ov_dmx_light_control/blob/92abd6c4c4cf819395afaac667794914b71ccda5/docs/development/pr01-report.md)：歷史USD／RT2／PT各兩次成功；[T005 review JSON](https://github.com/saizyca-ai-code/ov_dmx_light_control/blob/92abd6c4c4cf819395afaac667794914b71ccda5/docs/development/evidence/t004-review-observed.json)：28個plugin path/hash吻合、11 checks、build全dev。這些是歷史直接runtime證據（A），不是B-pass。
 - [resolution lock](https://github.com/saizyca-ai-code/ov_dmx_light_control/blob/92abd6c4c4cf819395afaac667794914b71ccda5/tools/bootstrap/resolution.lock.json)與review交叉核對（B）：35檔／30DLL／28plugins，非完整SDK／driver SBOM。`187cf21b`是Kit target／publication，`1ea54838`是SDK dependency宣告，兩者不可互換。權威loaded-bytes映射與原archive checksum仍未知（U，not-verified）。Evidence Policy A／B類別與本文件方案A／B不同。
 
-## Decision proposed、alternatives與適用範圍
+## Accepted decision、alternatives與適用範圍
 
 | 路徑 | 證明目的與必要資料 | 風險／代價 |
 |---|---|---|
@@ -71,7 +71,7 @@ Coverage record必須是受版本管理的獨立evidence，以其raw-byte SHA256
 4. OS／GPU／driver可用環境冊記錄實際build／model／driver版本、API、取得方式與時間及比對結果；不因此認證driver bytes。只有human明確接受此方法足以涵蓋可信本機的行為風險時才可用。若需求包括driver byte integrity、證據不可得或實際環境不符，保持blocked，不強行排除。
 5. Run前批准必須包含collection roots／scan domains、exact covered set、預期plugin set及排除catalog。pre/post核對整個covered set，掃描domains內未列入covered或已review排除catalog的extra須阻擋；域外與未觀察依賴仍須如實列限制，不能聲稱完整SBOM。新unknown runtime module須另行診斷／review，不在該未批准run直接給B-pass。
 
-## Canonical identity contract v1（提案，待實作）
+## Canonical identity contract v1（政策已接受，待implementation採用及實作）
 
 ### Binary集合payload與ID
 
@@ -207,8 +207,8 @@ Canonical test vectors為**合成資料，不是SDK檔案或approved baseline**�
 | E07 | 具名custodian、evidence／manifest可恢復確認、cache保管／停止清理與授權檢視安排，丟失時停止沿用；不暗中複製SDK或宣稱fresh-host重建 |
 | E08 | 方向與L決定、實質政策review／publication／實際merged SHA、adoption PR／impact note；run前子項批准指定集合／環境／coverage／限制，run後子項由human審查實際E01–E07接受或拒絕。兩子項分開，不能追認未批准baseline |
 
-1. S1：owner方向／條件框架已核准；詳細政策仍待review，具名baseline批准者／custodian／reviewer仍未指定。
-2. S2：本獨立研究PR review；只有另行明確的政策接受及merge後，才取得實際merged政策SHA。status review或PR建立本身不生效。本次禁止merge。
+1. S1：owner方向／條件框架與本詳細政策契約已明確核准；具名baseline批准者／custodian／run reviewer仍未指定。
+2. S2：PR #7完整review及契約修正後，owner於2026-10-17明確接受研究政策並授權合併；merge後才取得實際merged政策SHA作publication依據。此接受不追認baseline／B結果，亦不直接更新implementation lock。
 3. S3：另經授權、review的implementation adoption PR以該SHA更新lock、impact note及所需schema／checker／負例；採用政策不代表B驗收，Go仍blocked。
 4. S4-run前：E01／E02／E03／E07準備及E04／E06 checker負例／控制安排已審，E08 run前子項批准指定集合／有限環境IDs；另有明確execution授權才可run。
 5. S4-run後：執行E04／E05、封存含E06待審結果的不可變machine evidence snapshot、獨立human審查該snapshot完成E08 run後接受／拒絕，才評估B最終identity驗收。E04 post／E05／E08 run後結果無須先於S3存在。不能以B-pass作human簽核先決條件。
@@ -217,12 +217,12 @@ Canonical test vectors為**合成資料，不是SDK檔案或approved baseline**�
 
 ## Compatibility、採用與重審
 
-Example schema0.1仍是歷史格式；0.2是本候選新增identity分層契約。讀取0.1可作legacy inventory／歷史診斷，不含B證據就不能推斷B-pass。0.1→0.2不是給舊run補預設approved／pass的自動migration；現有implementation不改格式／assessor，待獨立adoption PR處理。example的歷史research_baseline不是policy merged SHA，也不是implementation lock。
+Example schema0.1仍是歷史格式；0.2是本政策新增identity分層契約。讀取0.1可作legacy inventory／歷史診斷，不含B證據就不能推斷B-pass。0.1→0.2不是給舊run補預設approved／pass的自動migration；現有implementation不改格式／assessor，待獨立adoption PR處理。example的歷史research_baseline不是policy merged SHA，也不是implementation lock。
 
 Binary或plugin set、OS／driver／GPU／embedded runtime、scene／settings／source／command任何critical改變，或source信任問題、cache／證據遺失、owner撤回L接受、新官方mapping出現，均須impact review與必要新集合／批准／重驗。保存舊結論適用的政策與evidence，不改hash讓mismatch消失，不自動改lock或Git回退。A不必作為B未來都要取得的vendor資料補件，但用途若要求provenance則B不能豁免A。
 
 ## Validation與角色分工
 
-本PR只有政策文件／example／生成索引，沒有runtime執行、產品checker或test probe實作。研究metadata／index／pytest／JSON及合成vector checks的實際結果列PR描述；全部不證明SDK／GPU或B已驗收。
+本PR只有政策文件／example／研究測試／生成索引，沒有runtime執行、產品checker或test probe實作。研究metadata／index／pytest／JSON及合成vector checks的實際結果列PR描述；全部不證明SDK／GPU或B已驗收。
 
 Chat研究端可完成API／規格／政策／驗證計畫與human決策；Codex在獨立明確授權的implementation repo撰寫probe、執行Kit／RTX與交付證據，研究端再review／回寫發現。PR-02 T05–T07是實作及實測交付，不是只讀文件的研究；本ADR不啟動它。

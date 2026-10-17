@@ -95,9 +95,9 @@ Do not put sensitive raw logs or proprietary SDK binaries in public GitHub. Keep
 ## 8. Completion and report ownership
 Agent attaches `run-summary.json`, AC matrix with evidence links, actual commands and exit codes, version manifest, unresolved items and gate proposal. Human reviewer signs off independently. No Kit/runtime evidence exists at the time this draft was created.
 
-## 9. Candidate binary identity verification
+## 9. Accepted research binary identity verification; adoption pending
 
-This proposed extension is governed by [ADR-0002](../../research/OVR-ADR-0002-poc0-binary-identity-policy.md), including the sole detailed B01–B08/L01–L05/E01–E08 definitions, criticality/coverage, canonical identity v1 contract and synthetic test vectors. It is not adopted by the existing implementation lock; current Go remains blocked.
+This policy extension, explicitly accepted by the human owner on 2026-10-17, is governed by [ADR-0002](../../research/OVR-ADR-0002-poc0-binary-identity-policy.md), including the sole detailed B01–B08/L01–L05/E01–E08 definitions, criticality/coverage, canonical identity v1 contract and synthetic test vectors. It is not adopted by the existing implementation lock; current Go remains blocked.
 
 - Required source of inputs: reviewed source/acquisition/integrity issues (E01), full coverage classification and approved scan domains (E02), exact binary manifest and per-mode environment IDs (E03), named custodian/restorable evidence (E07). Unknown critical or unresolved concrete integrity concern blocks B. Environment records are not driver byte attestation.
 - Implementation must independently verify canonical vectors and negative cases specified in ADR. Missing/extra/duplicate/unknown modules, bad schema/digest/path/link, source/environment drift, wrong approval/policy, absent pre/post evidence and impersonated human cannot yield B-pass. A successful diagnostic test is still reported pass at that level.

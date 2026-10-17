@@ -36,9 +36,9 @@ tags: [precision-lighting, poc0, acceptance, validation]
 | **P0-AC-08** result integrity | manifest schema validation, evidence refs/files, command transcript, negative-case test | every task has status, provenance, reproducibility, no fabricated evidence | missing artifacts/secret exposures = fail |
 | **P0-AC-09** fallback governance | 110.4 blocker cause and version impact memo | maintain 110.4 unless recorded reproducible blocker + reviewer approves 110.3 scoped comparison | silent swap = fail |
 
-### Candidate identity policy and adoption boundary
+### Accepted research identity policy and adoption boundary
 
-[OVR-ADR-0002](../../research/OVR-ADR-0002-poc0-binary-identity-policy.md) is the sole detailed A/B policy contract. This branch proposes a **substantive acceptance change**, not a claim that the old AC-02 already accepted binary identity. It remains status review: current implementation lock `27ab5add5c62692d47662e32401df860a82136cf` is unchanged, full environment Go=blocked and Full Gate0 not-assessed. Human direction approval and L01–L05 principle acceptance do not approve a binary baseline or B result.
+[OVR-ADR-0002](../../research/OVR-ADR-0002-poc0-binary-identity-policy.md) is the sole detailed A/B policy contract. This is a **substantive acceptance change** explicitly accepted by the human owner on 2026-10-17, not a claim that the old AC-02 already accepted binary identity. Research publication and implementation adoption remain distinct: current implementation lock `27ab5add5c62692d47662e32401df860a82136cf` is unchanged, full environment Go=blocked and Full Gate0 not-assessed. Neither human policy acceptance nor L01–L05 principle acceptance approves a binary baseline or B result.
 
 After separate policy acceptance/publication and reviewed implementation adoption, B may satisfy the critical identity purpose only for its approved local PoC scope, with every B/E condition and pre-run approval/post-run human acceptance complete. `internal_revision` remains unavailable; vendor provenance stays unresolved. Diagnostic pass, inventory pass, B final identity acceptance and full environment Go are separate. No historical run is relabeled. Other AC requirements, the four Gate decisions below, and Conditional Go restrictions are unchanged. Neither this PR nor a future policy merge authorizes PR-02.
 

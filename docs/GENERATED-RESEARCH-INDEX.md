@@ -6,7 +6,7 @@ Documents indexed: 11
 | ID | Title | Type | Status | Path |
 |---|---|---|---|---|
 | OVR-ADR-0001 | Virtual-First Physical-Ready Precision Lighting Architecture | decision | accepted | [docs/research/OVR-ADR-0001-virtual-first-physical-ready.md](research/OVR-ADR-0001-virtual-first-physical-ready.md) |
-| OVR-ADR-0002 | PoC 0 — 受限 binary identity 替代證明政策候選 | decision | review | [docs/research/OVR-ADR-0002-poc0-binary-identity-policy.md](research/OVR-ADR-0002-poc0-binary-identity-policy.md) |
+| OVR-ADR-0002 | PoC 0 — 受限 binary identity 替代證明政策 | decision | accepted | [docs/research/OVR-ADR-0002-poc0-binary-identity-policy.md](research/OVR-ADR-0002-poc0-binary-identity-policy.md) |
 | OVR-DES-0001 | PoC 0 — Environment and Capability Technical Design | technical-design | planned | [docs/specs/OVR-DES-0001-poc0.md](specs/OVR-DES-0001-poc0.md) |
 | OVR-HOF-0001 | PoC 0 — Implementation Handoff | handoff | planned | [docs/handoffs/OVR-HOF-0001-poc0.md](handoffs/OVR-HOF-0001-poc0.md) |
 | OVR-HOF-0002 | PoC 0 — Acceptance Criteria | handoff | planned | [docs/handoffs/precision-lighting-poc0/POC0-ACCEPTANCE.md](handoffs/precision-lighting-poc0/POC0-ACCEPTANCE.md) |

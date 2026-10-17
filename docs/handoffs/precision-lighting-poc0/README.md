@@ -18,8 +18,8 @@ Before merging, verify ID uniqueness, metadata, version assertions, references a
 Do not treat these planning documents as successful Omniverse Kit/RTX runtime validation. Exact SDK commands, versions and hardware observations remain for the implementation agent to establish.
 
 
-## Candidate identity policy (2026-10-17)
+## Accepted research identity policy; adoption pending (2026-10-17)
 
-[ADR-0002](../../research/OVR-ADR-0002-poc0-binary-identity-policy.md) is the proposed detailed identity policy; [INV-0004](../../research/OVR-INV-0004-rtx-identity-research-feedback.md) preserves prior investigation. Only B direction/conditions and L01–L05 principle acceptance are approved, not this policy, a binary baseline or B result. Candidate AC/DES/verification/HOF changes and example0.2 are reviewed together. Their presence on a PR branch does not alter the existing implementation lock or current Go=blocked.
+[ADR-0002](../../research/OVR-ADR-0002-poc0-binary-identity-policy.md) is the detailed identity policy explicitly accepted by the human owner after PR #7 review; [INV-0004](../../research/OVR-INV-0004-rtx-identity-research-feedback.md) preserves prior investigation. The policy contract is accepted; a binary baseline and B result are not approved. AC/DES/verification/HOF and example0.2 were reviewed together. Research acceptance/publication does not alter the existing implementation lock or current Go=blocked.
 
-The historical package status/source refs above describe original preparation. A future policy requires explicit review/acceptance and merge, then separate implementation adoption of the real merged policy SHA; metadata/index/test success alone does not establish policy acceptance or GPU verification. This PR must not merge, start PR-02 or update handoff.lock.yaml.
+The historical package status/source refs above describe original preparation. PR #7 publishes the accepted research policy when merged; a separately authorized, reviewed implementation adoption must use that real merged policy SHA; metadata/index/test success alone does not establish policy acceptance or GPU verification. The owner authorized PR #7 merge only; no implementation adoption, PR-02 or handoff.lock.yaml update is authorized by that merge.
