@@ -160,8 +160,10 @@
       "timestamp_utc": null,
       "record_ref": null,
       "decision": null,
-      "actor_kind": null
-    }
+      "actor_kind": null,
+      "reviewed_machine_evidence_ref": null
+    },
+    "machine_evidence_ref": null
   },
   "result_levels": {
     "diagnostic_status": "not-run",

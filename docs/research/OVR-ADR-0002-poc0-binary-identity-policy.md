@@ -84,9 +84,11 @@ Payload恰含`schema`與`files`：schema=`poc0-binary-set/1`，files為非空arr
 
 ### 環境payload、環境ID與綁定
 
-環境payload恰含`schema`=`poc0-run-environment/1`及`values`（object）。values keys須lowercase ASCII snake_case，values須非空printable ASCII strings（0x20–0x7e，禁止control與non-ASCII）；保留原值不trim或case-fold。這是canonical描述契約，不限制私人raw evidence的encoding；本機localized資料須另存raw並明列其可核對ASCII描述方法。
+環境payload恰含`schema`=`poc0-run-environment/1`及`values`（object）。values keys須符合ASCII regex `[a-z][a-z0-9_]*`，values須非空printable ASCII strings（0x20–0x7e，禁止control與non-ASCII）；保留原值不trim或case-fold。這是canonical描述契約，不限制私人raw evidence的encoding；本機localized資料須另存raw並明列其可核對ASCII描述方法。
 
 Required keys：`windows_build`、`gpu_model`、`driver_version`、`graphics_api`、`kit_build`、`kernel_build`、`embedded_openusd`、`embedded_python`、`renderer_mode`、`implementation_commit`、`source_snapshot_sha256`、`scene_sha256`、`settings_sha256`、`command_spec_sha256`。implementation_commit須40位lowercase hex；所有`*_sha256`值須64位lowercase hex、且對應實際raw artifact。source snapshot須列所有app／probe／executor來源的path／hash，前後核對；command spec須含可審的normalized argv／cwd mapping／flags與重要env。必要版本或輸入未知不得用占位字串通過。可加額外同型keys，新增值會改變環境ID。
+
+Command normalization只可使用run前已批准的token／binding規則，將核准absolute roots及不影響行為的run ID／時間／evidence輸出位置映射為穩定token，並保留逐run實際argv、cwd、flags、重要env與binding證據供human核對。不得刪除或泛化executable、probe、renderer mode、scene／settings、依賴版本、extension search paths、安全／執行控制flags或影響行為的env；這些須以固定值或已批准且具hash的對象精確綁定。未列入規則的差異、未批准binding或無法還原核對的命令一律blocked，不能藉相同normalized hash掩蓋實際漂移。
 
 canonical序列化同上；`environment_id = "sha256:" + SHA256(canonical bytes).hexdigest()`。renderer_mode逐run實際記錄，USD-only時明列`usd-only`，不能由檔名推論mode。binary_set_id不放入環境payload，兩ID在run envelope與run前approval互引，因此無digest循環。批准可列有限的per-mode environment IDs（USD、RT2、PT）及對應命令；任何未批准的mode／settings／來源或環境改變不得沿用。
 
@@ -94,11 +96,17 @@ canonical序列化同上；`environment_id = "sha256:" + SHA256(canonical bytes)
 
 Schema example0.2中的`identity`為主record：policy ID／採用的實際merged研究SHA、method=`vendor-provenance|binary-identity`或未選時null、declared build、internal revision／missing reason、binary／environment payload refs及IDs、coverage SHA、pre/runtime/post證據refs、E項結果與human批准refs。範例欄位是null時不代表滿足required runtime值；schema shape valid不等於驗收pass。
 
-每個evidence ref為相對evidence root的path與raw-byte SHA256；禁止absolute／`..`、秘密與私人raw log上傳。內部evidence可在授權範圍檢視，公開摘要只發清理後path／hash；evidence artifact不hash包含自身hash的record。run envelope與批准record以stable IDs互引；可在外部index記envelope hash，不在envelope內要求自己的hash。
+每個evidence ref為相對evidence root的path與raw-byte SHA256；禁止absolute／`..`、秘密與私人raw log上傳。內部evidence可在授權範圍檢視，公開摘要只發清理後path／hash；evidence artifact不hash包含自身hash的record。引用分三層，digest依賴只能由後向前，禁止self／mutual hash reference：
+
+1. **不可變machine evidence snapshot**：clean exit及完整post後封存，記policy／run／binary／environment／approval IDs、coverage、實際E01–E07 assertions與pre/runtime/post/source refs。E06在此只記diagnostic及待human審查結果；不含post-run human review ref/hash、E08最終簽核或B-pass。以raw-byte SHA256識別；多run彙總審查須列全數snapshot refs。
+2. **獨立human review record**：只引用已封存snapshot與底層證據hashes及run前批准；不引用含自己hash的最終摘要。審查後封存，不回寫snapshot。
+3. **最終summary envelope**：example0.2的identity.machine_evidence_ref及post_run_review.record_ref分別引用前兩層；才彙整E08及最終identity判定。post_run_review.reviewed_machine_evidence_ref必須與machine_evidence_ref一致，review中的run／policy／binary／environment／approval IDs也須與snapshot及summary精確匹配；任一不符不得B-pass。summary自己的hash只可置外部index，不要求human預先hash尚未產生的summary。
+
+Snapshot／review／summary更正均產生新artifact ID／hash並保留舊版；改變machine evidence須重新human review，實際執行漂移須新run，不可沿用舊簽核。stable IDs可供導航，但不能取代必要的digest及ID綁定。
 
 Run前human approval至少記：approval ID、actor（具名human角色）、UTC時間、policy ID／merged SHA、binary_set_id、允許environment IDs、coverage record SHA、信任根review／E01與E07 refs、L逐項接受與未解gap、受控執行安排、scope及execution authorization reference。不得在存在未處置critical gap時批准B候選驗收run。沒有批准的新module探索只能另經授權作diagnostic，不得追認為B驗收。
 
-Run後human review另記：review ID、actor、UTC時間、run IDs與run前approval ID、被審查的envelope／證據hashes、E01–E07逐項結果、限制、decision=`accept|reject`及理由。human必須獨立於執行coding agent，同一maintainer可多human角色但記錄分開。run後接受不批准新baseline，不以預先存在B-pass為接受前提。候選驗收前／後human record皆須有`actor_kind=human`及可審查的真人授權依據，不是只靠自填actor字串通過。各E execution status沿用pass／fail／blocked／not-run；identity_acceptance_status亦同，未簽核時blocked而diagnostic可pass。
+Run後human review另記：review ID、actor、UTC時間、run IDs與run前approval ID、被審查的不可變machine evidence snapshot refs／底層證據hashes（不含事後summary的hash）、E01–E07逐項結果、限制、decision=`accept|reject`及理由。human必須獨立於執行coding agent，同一maintainer可多human角色但記錄分開。run後接受不批准新baseline，不以預先存在B-pass為接受前提。候選驗收前／後human record皆須有`actor_kind=human`及可審查的真人授權依據，不是只靠自填actor字串通過。各E execution status沿用pass／fail／blocked／not-run；identity_acceptance_status亦同，未簽核時blocked而diagnostic可pass。
 
 ### 正例／負例規格
 
@@ -157,7 +165,34 @@ Canonical test vectors為**合成資料，不是SDK檔案或approved baseline**�
 ```
 <!-- CANONICAL-VECTORS-END -->
 
-必要負例：empty file set；unknown／missing keys；noninteger／bool size；bad／uppercase／truncated digest；duplicate與case collision；unsorted canonical entry input須先排序再serialize；absolute／UNC／drive／`..`／空component／尾點／link／越界／不可讀file；raw bytes與metadata不符；missing／extra runtime plugin、duplicate name/path、hash mismatch；pre/post不同、source／env漂移、missing post、timeout／bad exit；unknown critical；錯policy SHA、缺run前批准／coverage／custodian、冒用agent為human、run後批准套錯ID、沒有E08結果。所有負例不得導出B-pass；正常diagnostic assertions可獨立於human結果判定。
+必要負例：empty file set；unknown／missing keys；noninteger／bool size；bad／uppercase／truncated digest；duplicate與case collision；unsorted canonical entry input須先排序再serialize；absolute／UNC／drive／`..`／空component／尾點／link／越界／不可讀file；raw bytes與metadata不符；missing／extra runtime plugin、duplicate name/path、hash mismatch；pre/post不同、source／env漂移、missing post、timeout／bad exit；unknown critical；錯policy SHA、缺run前批准／coverage／custodian、冒用agent為human、run後批准套錯ID／snapshot hash、循環evidence引用、簽核後改寫snapshot、未批准的command normalization／binding、沒有E08結果。所有負例不得導出B-pass；正常diagnostic assertions可獨立於human結果判定。
+
+
+### 合成不可變引用鏈範例
+
+下列只示範machine→review→summary的建構次序與反向digest引用，**不是完整驗收record或已批准baseline**；合成的ID／pass／accept不對應任何真人或SDK run，不得作E項證據。最終判定仍須上述完整欄位、B八條件及E01–E08。研究test只核對這份示例的raw-byte hashes、無循環及ID綁定，產品checker負例留待獨立adoption實作。
+
+<!-- EVIDENCE-CHAIN-BEGIN -->
+```json
+[
+  {
+    "path": "synthetic-machine.json",
+    "sha256": "dd37ce878b3e82c79ea5f92e35129239788b88f4e4adb114da4b0fb8ff60e435",
+    "raw_ascii": "{\"binary_set_id\":\"sha256:1111111111111111111111111111111111111111111111111111111111111111\",\"diagnostic_status\":\"pass\",\"environment_id\":\"sha256:2222222222222222222222222222222222222222222222222222222222222222\",\"kind\":\"machine-evidence\",\"policy_revision\":\"0000000000000000000000000000000000000000\",\"pre_run_approval_id\":\"synthetic-preapproval\",\"refs\":[],\"run_id\":\"synthetic-run\"}\n"
+  },
+  {
+    "path": "synthetic-review.json",
+    "sha256": "1bef7beac217c831db7e72181f8bdee3ca179894a63614d634c5cece8175c274",
+    "raw_ascii": "{\"binary_set_id\":\"sha256:1111111111111111111111111111111111111111111111111111111111111111\",\"decision\":\"accept\",\"environment_id\":\"sha256:2222222222222222222222222222222222222222222222222222222222222222\",\"kind\":\"human-review\",\"policy_revision\":\"0000000000000000000000000000000000000000\",\"pre_run_approval_id\":\"synthetic-preapproval\",\"refs\":[{\"path\":\"synthetic-machine.json\",\"sha256\":\"dd37ce878b3e82c79ea5f92e35129239788b88f4e4adb114da4b0fb8ff60e435\"}],\"reviewed_machine_evidence_ref\":{\"path\":\"synthetic-machine.json\",\"sha256\":\"dd37ce878b3e82c79ea5f92e35129239788b88f4e4adb114da4b0fb8ff60e435\"},\"run_id\":\"synthetic-run\"}\n"
+  },
+  {
+    "path": "synthetic-summary.json",
+    "sha256": "e66226f0ecfdef7547706dbcab03e88ead742f71559c7b7a33ceae020d75a10a",
+    "raw_ascii": "{\"binary_set_id\":\"sha256:1111111111111111111111111111111111111111111111111111111111111111\",\"environment_id\":\"sha256:2222222222222222222222222222222222222222222222222222222222222222\",\"kind\":\"summary\",\"machine_evidence_ref\":{\"path\":\"synthetic-machine.json\",\"sha256\":\"dd37ce878b3e82c79ea5f92e35129239788b88f4e4adb114da4b0fb8ff60e435\"},\"policy_revision\":\"0000000000000000000000000000000000000000\",\"post_run_review_ref\":{\"path\":\"synthetic-review.json\",\"sha256\":\"1bef7beac217c831db7e72181f8bdee3ca179894a63614d634c5cece8175c274\"},\"pre_run_approval_id\":\"synthetic-preapproval\",\"refs\":[{\"path\":\"synthetic-machine.json\",\"sha256\":\"dd37ce878b3e82c79ea5f92e35129239788b88f4e4adb114da4b0fb8ff60e435\"},{\"path\":\"synthetic-review.json\",\"sha256\":\"1bef7beac217c831db7e72181f8bdee3ca179894a63614d634c5cece8175c274\"}],\"run_id\":\"synthetic-run\"}\n"
+  }
+]
+```
+<!-- EVIDENCE-CHAIN-END -->
 
 ## E01–E08必補證據與無循環取得程序
 
@@ -176,7 +211,7 @@ Canonical test vectors為**合成資料，不是SDK檔案或approved baseline**�
 2. S2：本獨立研究PR review；只有另行明確的政策接受及merge後，才取得實際merged政策SHA。status review或PR建立本身不生效。本次禁止merge。
 3. S3：另經授權、review的implementation adoption PR以該SHA更新lock、impact note及所需schema／checker／負例；採用政策不代表B驗收，Go仍blocked。
 4. S4-run前：E01／E02／E03／E07準備及E04／E06 checker負例／控制安排已審，E08 run前子項批准指定集合／有限環境IDs；另有明確execution授權才可run。
-5. S4-run後：執行E04／E05、產出E06待審結果、獨立human完成E08 run後接受／拒絕，才評估B最終identity驗收。E04 post／E05／E08 run後結果無須先於S3存在。不能以B-pass作human簽核先決條件。
+5. S4-run後：執行E04／E05、封存含E06待審結果的不可變machine evidence snapshot、獨立human審查該snapshot完成E08 run後接受／拒絕，才評估B最終identity驗收。E04 post／E05／E08 run後結果無須先於S3存在。不能以B-pass作human簽核先決條件。
 
 任何必要gap未完成，B最終驗收不得pass。已執行assertion不符合是fail；依賴／環境不可用是blocked；未嘗試是not-run；保持原失敗並以新run重試。取得A或完成B最多解除identity一項，不自動符合其他AC或Full Gate0；Conditional Go原Pure Core限制不變，本次也未授予Conditional Go／PR-02。
 
